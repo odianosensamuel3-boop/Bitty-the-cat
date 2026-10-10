@@ -121,7 +121,8 @@ export const siteConfig = {
     howToBuy: "",
     socials: {
       x: "",
-      telegram: "",
+      /** Official Telegram community — published 2026-10. */
+      telegram: "https://t.me/Bittythecat",
       discord: "",
       /** Optional extras — used by the footer when provided. */
       instagram: "",
