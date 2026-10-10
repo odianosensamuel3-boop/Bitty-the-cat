@@ -1,5 +1,6 @@
 import Link from "next/link";
 import siteConfig from "@/config/site.config";
+import { assetPath } from "@/lib/asset-path";
 import { cx } from "@/lib/utils";
 
 export function Logo({
@@ -27,7 +28,7 @@ export function Logo({
           {/* Transparent circular cut-out so the logo reads as a badge. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/icons/favicon-96.png"
+            src={assetPath("/icons/favicon-96.png")}
             alt=""
             width={96}
             height={96}

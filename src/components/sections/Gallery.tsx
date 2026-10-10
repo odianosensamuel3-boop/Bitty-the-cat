@@ -5,13 +5,21 @@ import Button from "@/components/ui/Button";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { CloseIcon, PawIcon } from "@/components/ui/icons";
 import { galleryItems, gallerySrcWidths } from "@/data/content";
+import { assetPath } from "@/lib/asset-path";
 import { getSocialLinks } from "@/config/site.config";
 import { cx } from "@/lib/utils";
 
 function srcSet(base: string) {
   // Largest width (900) is the plain file name; smaller ones carry a suffix.
-  const widths = gallerySrcWidths.map((width) => (width === 900 ? `${base}.jpg ${width}w` : `${base}-${width}.jpg ${width}w`));
-  return widths.join(", ");
+  return gallerySrcWidths
+    .map((width) => (width === 900 ? `${base}.jpg ${width}w` : `${base}-${width}.jpg ${width}w`))
+    .join(", ")
+    .split(", ")
+    .map((entry) => {
+      const [pathname, descriptor] = entry.split(" ");
+      return `${assetPath(pathname)} ${descriptor}`;
+    })
+    .join(", ");
 }
 
 /**
@@ -80,7 +88,7 @@ export function Gallery() {
                 className="group relative block aspect-square w-full overflow-hidden rounded-card border border-white/8 bg-charcoal transition-[transform,border-color,box-shadow] duration-500 hover:-translate-y-1 hover:border-golden/50 hover:shadow-glow focus-visible:-translate-y-1"
               >
                 <img
-                  src={`${item.base}.jpg`}
+                  src={assetPath(`${item.base}.jpg`)}
                   srcSet={srcSet(item.base)}
                   sizes="(max-width: 640px) 46vw, (max-width: 1024px) 30vw, 22vw"
                   alt={item.alt}
@@ -129,7 +137,7 @@ export function Gallery() {
             onClick={(event) => event.stopPropagation()}
           >
             <img
-              src={`${active.base}.jpg`}
+              src={assetPath(`${active.base}.jpg`)}
               srcSet={srcSet(active.base)}
               sizes="(max-width: 768px) 92vw, 640px"
               alt={active.alt}

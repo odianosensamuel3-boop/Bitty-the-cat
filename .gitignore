@@ -32,3 +32,6 @@ yarn-error.log*
 
 # local caches
 /.npm-cache
+
+# generated deploy artifact
+/out.zip

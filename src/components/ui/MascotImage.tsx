@@ -1,4 +1,5 @@
 import siteConfig from "@/config/site.config";
+import { assetPath, assetSrcSet } from "@/lib/asset-path";
 import { cx } from "@/lib/utils";
 
 type MascotImageProps = {
@@ -44,14 +45,14 @@ export function MascotImage({
   height,
 }: MascotImageProps) {
   const source = variant === "circle" ? mascotCircle : mascot;
-  const srcSet = source.srcSet.map((item) => `${item.src} ${item.width}w`).join(", ");
+  const srcSet = assetSrcSet(source.srcSet);
   const type = variant === "circle" ? "image/png" : "image/jpeg";
 
   return (
     <picture>
       <source type={type} srcSet={srcSet} sizes={sizes} width={source.width} height={source.height} />
       <img
-        src={source.src}
+        src={assetPath(source.src)}
         srcSet={srcSet}
         sizes={sizes}
         width={width ?? size}
