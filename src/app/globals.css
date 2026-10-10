@@ -1,0 +1,314 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   BITTY THE CAT — DESIGN TOKENS
+   Tailwind v4 theme layer. Everything here is available as a utility, e.g.
+   `bg-bitty-orange`, `text-golden`, `rounded-card`, `shadow-glow`.
+   ========================================================================== */
+@theme {
+  /* --- brand palette (from the project brief) --- */
+  --color-bitcoin: #f7931a;
+  --color-orange: #ff6b00;
+  --color-golden: #ffc928;
+  --color-ink: #101010;
+  --color-charcoal: #1a1a1a;
+  --color-smoke: #232323;
+  --color-on: #ffffff;
+
+  /* --- semantic shorthands --- */
+  --color-brand: #ff6b00;
+  --color-brand-soft: color-mix(in srgb, #ff6b00 16%, transparent);
+  --color-brand-line: color-mix(in srgb, #f7931a 26%, transparent);
+  --color-muted: color-mix(in srgb, #ffffff 66%, transparent);
+  --color-faint: color-mix(in srgb, #ffffff 44%, transparent);
+
+  /* --- type --- */
+  --font-sans: var(--font-bitty), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
+  --font-display: var(--font-bitty-display), var(--font-bitty), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  /* --- radii --- */
+  --radius-card: 1.5rem;
+  --radius-pill: 999px;
+
+  /* --- shadows / glows --- */
+  --shadow-card: 0 24px 60px -32px rgba(0, 0, 0, 0.9);
+  --shadow-glow: 0 0 60px -12px color-mix(in srgb, #ff6b00 55%, transparent);
+  --shadow-glow-strong: 0 0 90px -10px color-mix(in srgb, #ff6b00 70%, transparent);
+
+  /* --- motion --- */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-float-slow: float 11s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 5.5s ease-in-out infinite;
+  --animate-spin-slow: spin 26s linear infinite;
+  --animate-marquee: marquee 34s linear infinite;
+  --animate-rise: rise 0.7s var(--ease-out-soft) both;
+  --animate-pop: pop 0.35s var(--ease-out-soft) both;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -16px, 0) rotate(1.5deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+@layer base {
+  :root {
+    /* Overridden by next/font when the display fonts are available. */
+    --font-bitty: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --font-bitty-display: var(--font-bitty);
+    color-scheme: dark;
+  }
+
+  * {
+    border-color: color-mix(in srgb, #ffffff 10%, transparent);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Sticky header height + breathing room for in-page anchors. */
+    scroll-padding-top: 6.5rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-on);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Visible, on-brand focus ring for keyboard users only. */
+  :focus-visible {
+    outline: 3px solid var(--color-golden);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: var(--color-orange);
+    color: #101010;
+  }
+
+  /* Custom scrollbar (progressive enhancement) */
+  @supports selector(::-webkit-scrollbar) {
+    ::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #101010;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: color-mix(in srgb, #f7931a 55%, #101010);
+      border-radius: 999px;
+      border: 3px solid #101010;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--color-orange);
+    }
+  }
+}
+
+/* ==========================================================================
+   COMPONENT UTILITIES
+   ========================================================================== */
+@layer utilities {
+  /* Gradient display text */
+  .text-gradient-orange {
+    background-image: linear-gradient(100deg, #ffc928 0%, #f7931a 42%, #ff6b00 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .text-gradient-white {
+    background-image: linear-gradient(180deg, #ffffff 20%, color-mix(in srgb, #ffffff 62%, transparent) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Orange "glow" fills */
+  .bg-glow-radial {
+    background-image: radial-gradient(
+      circle at 50% 50%,
+      color-mix(in srgb, #ff6b00 55%, transparent) 0%,
+      color-mix(in srgb, #f7931a 22%, transparent) 45%,
+      transparent 72%
+    );
+  }
+
+  /* Card surface used by feature / info / roadmap cards */
+  .surface-card {
+    background-image: linear-gradient(160deg, rgba(35, 35, 35, 0.92) 0%, rgba(16, 16, 16, 0.94) 100%);
+    border: 1px solid var(--color-brand-line);
+    box-shadow: var(--shadow-card);
+    backdrop-filter: blur(6px);
+  }
+
+  .surface-glass {
+    background-color: color-mix(in srgb, #101010 72%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+  }
+
+  /* Thin gradient hairline used to separate sections */
+  .hairline {
+    height: 1px;
+    background-image: linear-gradient(90deg, transparent, color-mix(in srgb, #f7931a 55%, transparent), transparent);
+  }
+
+  /* Subtle paw-print / grid background pattern */
+  .bg-paw-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23F7931A' fill-opacity='0.06'%3E%3Cellipse cx='40' cy='54' rx='14' ry='12'/%3E%3Cellipse cx='24' cy='38' rx='6' ry='8'/%3E%3Cellipse cx='35' cy='30' rx='6' ry='8'/%3E%3Cellipse cx='48' cy='30' rx='6' ry='8'/%3E%3Cellipse cx='58' cy='38' rx='6' ry='8'/%3E%3C/g%3E%3Cg fill='%23FFC928' fill-opacity='0.05'%3E%3Cellipse cx='120' cy='124' rx='14' ry='12'/%3E%3Cellipse cx='104' cy='108' rx='6' ry='8'/%3E%3Cellipse cx='115' cy='100' rx='6' ry='8'/%3E%3Cellipse cx='128' cy='100' rx='6' ry='8'/%3E%3Cellipse cx='138' cy='108' rx='6' ry='8'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 160px 160px;
+  }
+
+  .bg-grid-pattern {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  /* Animated orange gradient border for premium CTAs */
+  .ring-brand {
+    box-shadow: 0 0 0 1px color-mix(in srgb, #f7931a 40%, transparent), var(--shadow-glow);
+  }
+
+  .shimmer {
+    background-image: linear-gradient(
+      100deg,
+      transparent 20%,
+      color-mix(in srgb, #ffc928 45%, transparent) 50%,
+      transparent 80%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2.4s linear infinite;
+  }
+
+  /* Respect the user's reduced-motion preference everywhere. */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-float,
+    .animate-float-slow,
+    .animate-pulse-glow,
+    .animate-spin-slow,
+    .animate-marquee,
+    .animate-rise,
+    .animate-pop,
+    .shimmer {
+      animation: none !important;
+    }
+
+    .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+}
+
+/* ==========================================================================
+   SCROLL REVEAL
+   Elements start hidden only when JS is available (`.js-reveal` is added to
+   <html> by a tiny inline script), so the site is fully readable without JS.
+   ========================================================================== */
+.js-reveal .reveal {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  transition:
+    opacity 0.7s var(--ease-out-soft),
+    transform 0.7s var(--ease-out-soft);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.js-reveal .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  /* Release the compositor layer once the animation has played. */
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
