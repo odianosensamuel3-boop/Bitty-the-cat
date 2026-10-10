@@ -1,5 +1,5 @@
 User-Agent: *
 Allow: /
 
-Host: https://odianosensamuel3-boop.github.io/Bitty-the-cat
-Sitemap: https://odianosensamuel3-boop.github.io/Bitty-the-cat/sitemap.xml
+Host: https://bittythecat.com
+Sitemap: https://bittythecat.com/sitemap.xml
